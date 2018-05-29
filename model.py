@@ -61,6 +61,27 @@ class Model():
             ##################
             # Your Code here
             ##################
+            stacked_rnn = []
+            for iLayer in range(self.rnn_layers):
+                lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(128, forget_bias=1.0, state_is_tuple=True)
+                lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=self.keep_prob)
+                stacked_rnn.append(lstm_cell)
+
+            cell = tf.nn.rnn_cell.MultiRNNCell(stacked_rnn, state_is_tuple=True)
+
+            self.init_state = cell.zero_state(self.batch_size, dtype=tf.float32)
+
+            #print('xxxxxxxx', self.X)
+            #print('yyyyyyyy', self.Y)
+            rnn_inputs = tf.one_hot(self.X, self.num_words)
+            #print('rnn_inputs: ', rnn_inputs.shape)
+            state = self.init_state
+            outputs_tensor, state = tf.nn.dynamic_rnn(cell, inputs=rnn_inputs, initial_state=state, time_major=False)
+            #print(outputs_tensor)
+            #print(state)
+            outputs_state_tensor = outputs_tensor[:, -1, :]
+            self.outputs_state_tensor = outputs_state_tensor
+            self.final_state = state
 
         # flatten it
         seq_output_final = tf.reshape(seq_output, [-1, self.dim_embedding])
@@ -69,6 +90,10 @@ class Model():
             ##################
             # Your Code here
             ##################
+            W = tf.get_variable('W', [128, self.num_words], 
+                                initializer=tf.random_normal_initializer(stddev=0.01))
+            bias = tf.get_variable('b', [self.num_words], initializer=tf.constant_initializer(0.0))
+            logits = tf.matmul(seq_output_final, W) + bias
 
         tf.summary.histogram('logits', logits)
 
