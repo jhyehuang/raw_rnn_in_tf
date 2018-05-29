@@ -83,6 +83,7 @@ class Model():
             self.outputs_state_tensor = outputs_state_tensor
             self.final_state = state
 
+        seq_output = tf.concat(outputs_tensor, 1)
         # flatten it
         seq_output_final = tf.reshape(seq_output, [-1, self.dim_embedding])
 
@@ -98,8 +99,12 @@ class Model():
         tf.summary.histogram('logits', logits)
 
         self.predictions = tf.nn.softmax(logits, name='predictions')
+        y_one_hot = tf.one_hot(self.Y, self.num_words)
+        y_reshaped = tf.reshape(y_one_hot, logits.get_shape())
 
-        loss = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=tf.reshape(self.Y, [-1])
+        loss = tf.nn.softmax_cross_entropy_with_logits(
+            logits=logits, labels=y_reshaped)
+        
         mean, var = tf.nn.moments(logits, -1)
         self.loss = tf.reduce_mean(loss)
         tf.summary.scalar('logits_loss', self.loss)
