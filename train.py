@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import json
@@ -43,7 +42,9 @@ with tf.Session() as sess:
     logging.debug('Initialized')
 
     try:
+        logging.debug('FLAGS.output_dir [{0}]'.format(FLAGS.output_dir))
         checkpoint_path = tf.train.latest_checkpoint(FLAGS.output_dir)
+        logging.debug('checkpoint_path [{0}]'.format(checkpoint_path))
         saver.restore(sess, checkpoint_path)
         logging.debug('restore from [{0}]'.format(checkpoint_path))
 

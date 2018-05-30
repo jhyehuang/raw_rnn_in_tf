@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
 
@@ -19,7 +18,7 @@ if __name__ == '__main__':
             cmd += ' --{0}={1}'.format(parm, getattr(FLAGS, parm))
         except:
             pass
-
+    print('试试输出中文！')
     for i in range(30):
        # train 1 epoch
         print('################    train    ################')
