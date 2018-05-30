@@ -30,7 +30,7 @@ titles = ['江神子', '蝶恋花', '渔家傲']
 
 
 model = Model(learning_rate=FLAGS.learning_rate, batch_size=1, num_steps=1)
-model.build()
+model.build("embedding.npy")
 
 with tf.Session() as sess:
     summary_string_writer = tf.summary.FileWriter(FLAGS.output_dir, sess.graph)
@@ -60,7 +60,7 @@ with tf.Session() as sess:
                          model.keep_prob: 1.0}
 
             pred, state = sess.run(
-                [model.predictions, model.outputs_state_tensor], feed_dict=feed_dict)
+                [model.predictions, model.final_state], feed_dict=feed_dict)
 
         sentence = title
         word_index = pred[0].argsort()[-1]
@@ -72,7 +72,7 @@ with tf.Session() as sess:
                          model.keep_prob: 1.0}
 
             pred, state = sess.run(
-                [model.predictions, model.outputs_state_tensor], feed_dict=feed_dict)
+                [model.predictions, model.final_state], feed_dict=feed_dict)
 
             word_index = pred[0].argsort()[-1]
             word = np.take(reverse_list, word_index)
