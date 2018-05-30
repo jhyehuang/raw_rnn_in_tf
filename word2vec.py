@@ -284,14 +284,22 @@ try:
   # pylint: disable=g-import-not-at-top
   from sklearn.manifold import TSNE
   import matplotlib.pyplot as plt
-  plt.rcParams['font.sans-serif'] = ['SimHei']        # 指定默认字体
-  plt.rcParams['axes.unicode_minus'] = False          # 解决保存图像是负号'-'显示为方块的问题
+  from matplotlib import rcParams
+  from matplotlib import font_manager
+  font_manager.OSXInstalledFonts()
+  rcParams.update({
+    'font.family':'sans-serif',
+    'font.sans-serif':['SimHei'],
+    'axes.unicode_minus':False,
+    })
+  #plt.rcParams['font.sans-serif'] = ['SimHei']        # 指定默认字体
+  #plt.rcParams['axes.unicode_minus'] = False          # 解决保存图像是负号'-'显示为方块的问题
   tsne = TSNE(perplexity=30, n_components=2, init='pca', n_iter=5000, method='exact')
   plot_only = 500
   low_dim_embs = tsne.fit_transform(final_embeddings[:plot_only, :])
   labels = [reverse_dictionary[i] for i in xrange(plot_only)]
-  print(gettempdir())
-  plot_with_labels(low_dim_embs, labels, os.path.join(gettempdir(), 'tsne1.png'))
+  print(os.getcwd())
+  plot_with_labels(low_dim_embs, labels, os.path.join(os.getcwd(), 'tsne1.png'))
   
 
 except ImportError as ex:
