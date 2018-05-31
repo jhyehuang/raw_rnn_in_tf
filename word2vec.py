@@ -102,11 +102,11 @@ def build_dataset(words, n_words):
 data, count, dictionary, reverse_dictionary = build_dataset(vocabulary,
                                                             vocabulary_size)
 
-f=open('dictionary.txt', 'w')
+f=open('dictionary.json', 'w')
 f.write(json.dumps(dictionary))
 f.close()
 
-f=open('reverse_dictionary.txt', 'w')
+f=open('reverse_dictionary.json', 'w')
 f.write(json.dumps(reverse_dictionary))
 f.close()
 
@@ -220,7 +220,7 @@ with graph.as_default():
   init = tf.global_variables_initializer()
 
 # Step 5: Begin training.
-num_steps = 400001
+num_steps = 800001
 
 with tf.Session(graph=graph) as session:
   # We must initialize all variables before we use them.
