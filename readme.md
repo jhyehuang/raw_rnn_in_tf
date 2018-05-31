@@ -10,7 +10,8 @@ word embedding的意思是：给出一个文档，文档就是一个单词序列
 
 * word embading的内容
 
-![输入图片说明](https:// "tsne1.png")
+![Image text](https://github.com/jhyehuang/w11-huangzhijie-107158044/blob/master/tsne.png)
+
 
 ​      同类型的词：二三四五六八九十百千万
 
@@ -27,11 +28,14 @@ word embedding的意思是：给出一个文档，文档就是一个单词序列
 
 # 三、结果
 
-训练日志和结果
+训练日志
 
-“result_sample_log.png”
+![Image text](https://github.com/jhyehuang/w11-huangzhijie-107158044/blob/master/train_log.png)
 
-“train_log.png”
+
+结果日志
+
+![Image text](https://github.com/jhyehuang/w11-huangzhijie-107158044/blob/master/result_sample_log.png)
 
 # 四、RNN理解
 
